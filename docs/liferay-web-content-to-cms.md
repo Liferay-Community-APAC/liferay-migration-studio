@@ -4,7 +4,7 @@ nav_order: 3
 description: "Migrating Liferay 2024.Q1+ Web Content into the new CMS of Liferay DXP 2026.Q1+: what's migrated, field types and the checklist."
 ---
 
-# Liferay Web Content → the new CMS
+# Liferay Web Content to the New CMS
 {: .no_toc }
 
 {: .important }
@@ -16,6 +16,8 @@ description: "Migrating Liferay 2024.Q1+ Web Content into the new CMS of Liferay
 This ready-made migration moves one site's classic Web Content from **Liferay 2024.Q1 or later**
 into a **Space** of the new CMS in **Liferay DXP 2026.Q1 or later**. Everything in it is ordinary
 project configuration, so you can change any part of it in the UI.
+
+![The Web Content project after its load: vocabularies, categories, folders, documents, picklists, structures and 200 articles, none failed.](images/cms-overview.png){: .screenshot }
 
 ## Tested
 
@@ -32,12 +34,31 @@ There were no errors on the first load, and running it again changed nothing. Th
 from `liferay/dxp:2025.q1.29-lts`, with 339 articles, gave the same result, and a delta load wrote
 only the articles added or changed since the first load.
 
-## What's migrated
+![Validation of the 2024.Q1 migration: every mapping loaded, and the spot check found every record with no differences.](images/cms-validation.png){: .screenshot }
+
+{: .note }
+Checking the migrated files in Liferay's CMS found two problems the first test didn't, and both are now fixed. On
+2024.Q1, the source served some files as a web page instead of the file, so seven images arrived as HTML: files
+that come back as a web page are now fetched through the API instead. And links to migrated files named one
+version of the file, so a replaced file wasn't shown: links now always serve the file's latest version.
+
+## The Result in Liferay's CMS
+
+The migration creates the Space, here *2024.Q1 Content*, and its entries appear under **Content** like any other
+CMS content.
+
+![The 2024.Q1 Content Space in Liferay CMS 2026.Q3, with the migrated News and Product entries.](images/cms-space.png){: .screenshot }
+
+Each entry keeps its title and translations, its field values, and links to its migrated images and documents.
+
+![A migrated article in the CMS editor: its title, Space and friendly URL, and its attachment and banner fields pointing to the migrated files.](images/cms-entry.png){: .screenshot }
+
+## What's Migrated
 
 | From Web Content | To the new CMS | |
 |---|---|---|
 | Vocabularies and categories | Vocabularies and categories | Nested categories keep their tree. Vocabularies the target already has, such as *Topic*, are reused, not duplicated. |
-| Documents and Media folders and files | Space folders and documents | |
+| Documents and Media folders and files | The Space's document library | Reachable by their links. The CMS **Files** view doesn't list them yet (see below). |
 | Select, radio and multi-select options | Picklists | One per field. |
 | Web content structures | CMS content structures | Field by field (see below). Site and global structures. |
 | Articles | CMS entries | Every translation. Categories and keywords. |
@@ -45,9 +66,11 @@ only the articles added or changed since the first load.
 **Run order:** vocabularies, document folders and picklists first; then categories and
 structures; then documents; then articles, which need all of them.
 
+![The run order Migration Studio works out for this migration.](images/cms-run-order.png){: .screenshot }
+
 Images and links inside article text are rewritten to point at the migrated Space documents.
 
-## Field types
+## Field Types
 
 | Web content field | CMS field |
 |---|---|
@@ -67,7 +90,7 @@ Images and links inside article text are rewritten to point at the migrated Spac
 Each structure also gets the article's original ID, friendly URL, folder, author and dates, in
 fields starting with `legacy`, so nothing is lost and redirects can be built later.
 
-### Why some fields become text
+### Why Some Fields Become Text
 
 * **Images and documents:** 2026.Q3's API doesn't yet accept attachment values for CMS entries.
   The files are uploaded to the Space, and the field holds their new URL.
@@ -76,7 +99,14 @@ fields starting with `legacy`, so nothing is lost and redirects can be built lat
 * **Repeatable fields:** kept as JSON until filling CMS repeatable groups through the API is
   confirmed.
 
-## Not migrated
+## Known Limitations
+
+* **Migrated files don't appear in the CMS Files view yet.** They're uploaded to the Space's document library, so
+  every image, document field and link in the migrated entries opens them, but the CMS lists only files created as
+  CMS Files. Creating them as CMS Files, which the 2026.Q3 API accepts, is planned before release.
+* **The images and documents in field values are links**, not CMS attachments (see above).
+
+## Not Migrated
 
 * **Templates** (FTL) and ADTs. Rebuild them as display page templates or fragments.
 * **Version history and drafts.** Only the latest approved version of each article.
@@ -86,7 +116,7 @@ fields starting with `legacy`, so nothing is lost and redirects can be built lat
 * **Permissions.** Grant VIEW on the migrated content structures after loading.
 * **Comments, ratings and related assets.**
 
-## Before and after loading
+## Before and After Loading
 
 **Before:**
 
@@ -101,7 +131,7 @@ fields starting with `legacy`, so nothing is lost and redirects can be built lat
 * Run validation.
 * At cutover, run a delta extract and load to pick up what changed since the first load.
 
-## Large sites
+## Large Sites
 
 Documents and articles load in parallel; you can raise or lower that per mapping. On a production
 source, set a request rate limit on the connection.

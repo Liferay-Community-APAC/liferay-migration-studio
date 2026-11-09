@@ -8,83 +8,64 @@ description: "Liferay Migration Studio moves content from systems with an API in
 {: .no_toc }
 
 {: .important }
-**Coming soon.** This page describes a tool in development. There's nothing to download yet.
+**Coming soon.** These pages describe a tool in development. There's nothing to download yet.
 
 1. TOC
 {:toc}
 
-Move content from systems with an API into **Liferay DXP**. You map the source to Liferay in a
-web UI, check every request with a dry run, load, then validate the result against the source.
-Loads can be stopped and re-run without creating duplicates.
+Move content from systems with an API into **Liferay DXP**. You map the source to Liferay in a web UI, check every
+request with a dry run, load, then validate the result against the source. Loads can be stopped and re-run without
+creating duplicates.
 
-## First example: Liferay 2024.Q1 Web Content → the new CMS in 2026.Q3
+![A dry run in Liferay Migration Studio: every record prepared and checked, nothing written to Liferay yet.](images/dry-run.png){: .screenshot }
 
-Liferay 2026.Q3 introduces a new CMS built on Spaces. Migration Studio moves classic Web Content
-into it:
+## Who It's For
 
-| From Liferay 2024.Q1 | To Liferay 2026.Q3 |
-|---|---|
-| Web content structures | CMS content structures |
-| Web content articles, with their translations | CMS entries |
-| Select, radio and multi-select options | Picklists |
-| Documents and Media folders and files | Space documents and folders |
-| Vocabularies and categories, including nested ones | Vocabularies and categories |
+- **Liferay customers moving to the new CMS** in Liferay DXP 2026.Q1 and later, from classic Web Content in
+  2024.Q1 and later.
+- **Teams replacing another system with Liferay**, such as SharePoint discussion boards with Liferay Forums.
+- **Partners and consultants** who run migrations for customers and want the same repeatable, checkable process each
+  time.
 
-Images and links inside article text are rewritten to point at the migrated documents.
+## What It Migrates
 
-**Tested on real Liferay, from `2024.q1.32` to `2026.q3.9`** (a sandbox with sample content):
+| Migration | Tested | Guide |
+| --- | --- | --- |
+| Liferay Web Content (2024.Q1 and later) → the new CMS in 2026.Q3 | On real Liferay, from 2024.Q1 and 2025.Q1 | [Liferay Web Content to the New CMS](liferay-web-content-to-cms.html) |
+| SharePoint Server discussion boards → Liferay Forums | Against a simulated SharePoint Server 2016, into real Liferay Forums | [SharePoint Discussions to Liferay Forums](sharepoint-discussions-to-forums.html) |
+| Other systems with a REST API, or CSV files | With test servers only | [How It Works](how-it-works.html) |
 
-* All 200 sample articles (English and Spanish), 14 documents, 3 structures and a 3-level
-  category tree loaded on the first run, with no errors.
-* Validation read 100 migrated articles back from Liferay and compared them with the source:
-  no differences.
-* Running the load again changed nothing.
+**Tested on real Liferay, from `2024.q1.32` to `2026.q3.9`** (a sandbox with sample content): all 200 articles in
+English and Spanish, 14 documents, 3 structures and a 3-level category tree loaded with no errors; validation read
+100 articles back from Liferay and found no differences; and running the load again changed nothing.
 
-Liferay 2025.Q1 has been tested the same way. See
-[the migration guide](liferay-web-content-to-cms.html) for what's migrated and what isn't.
+![The migrated Space in Liferay CMS 2026.Q3.](images/cms-space.png){: .screenshot }
 
-## How it works
+## How It Works
 
-1. **Connect** the source and your Liferay DXP.
-2. **Map** what goes where: entities, fields and transformations, in the UI. Ready-made
-   mappings cover the example above.
-3. **Run order is worked out for you.** Vocabularies come before categories, parent categories
-   before their children, documents before the articles that use them. You can change the order
-   in the UI.
+1. **Connect** the source and your Liferay DXP. Migration Studio checks that the target is Liferay DXP.
+1. **Extract** the source into Migration Studio's own staging area. It resumes where it stopped.
+1. **Map** what goes where in the UI, or start from a ready-made project and adjust it.
+1. **Run order is worked out for you** from the mappings: categories after their vocabularies, articles after the
+   documents they use, replies after the posts they answer.
+1. **Dry run** prepares every request without writing anything.
+1. **Load** in parallel chunks. Re-runs update instead of duplicating, and a delta load at cutover writes only what
+   changed.
+1. **Validate**: counts, a field-by-field comparison of records read back from Liferay, and records whose related
+   records weren't migrated.
 
-   ![The run order, worked out from the mappings](run-order.png){: .screenshot }
+[How It Works](how-it-works.html) walks through each step with screenshots.
 
-4. **Dry run.** Every request the load would make, with nothing written.
-5. **Load.** Handles large volumes in parallel batches. It can be stopped and resumed, and a
-   delta load at cutover writes only what changed.
-6. **Validate.** Record counts, plus a field-by-field comparison of a sample of migrated
-   records against the source.
+## Optional AI Help
 
-## Optional AI help
-
-Everything works without AI. With an AI model of your choice (a hosted service or a model you
-run yourself), Migration Studio can:
-
-* suggest field mappings for you to accept or reject,
-* explain why records failed validation, with evidence,
-* answer questions about a migration in a chat. It can run checks and dry runs, but only
-  proposes loads for you to confirm.
-
-## In These Docs
-
-* [How it works](how-it-works.html): connect, extract, map, run order, dry run, load, validate
-* [Liferay Web Content → the new CMS](liferay-web-content-to-cms.html): what's migrated, field
-  types, what isn't, and the before and after checklist
-* [AI help](ai.html): mapping suggestions, explaining validation problems, and Ask
-* [Security and data](security-and-data.html): where it runs, where data goes, safeguards
-
-## Planned sources
-
-* Liferay Web Content from 2024.Q1 and later (above)
-* SharePoint discussion boards → Liferay Forums
-* Other systems through their REST API, or CSV files
+Everything works without AI. With an AI model of your choice, a hosted one or one you run yourself, Migration Studio
+can suggest field mappings, explain why records failed validation, and answer questions about a migration in a chat
+that can dry-run but only proposes loads for you to confirm. See [AI Help](ai.html).
 
 ## Requirements
 
-* **Liferay DXP** 2026.Q1 or later as the target. Liferay Community Edition isn't supported.
-* Docker, on a laptop or a server.
+- **Liferay DXP** 2026.Q1 or later as the target. Liferay Community Edition isn't supported.
+- **Docker**, on a laptop or a server, with network access to the source and to Liferay.
+- An account on the source that can read what you're migrating, and a Liferay administrator account.
+
+Read [Security and Data](security-and-data.html) for where it runs, where data goes, and its safeguards.

@@ -1,6 +1,6 @@
 ---
 title: Security and Data
-nav_order: 5
+nav_order: 6
 description: "Where Liferay Migration Studio runs, where your data goes, credentials, access and safeguards."
 ---
 
@@ -13,12 +13,12 @@ description: "Where Liferay Migration Studio runs, where your data goes, credent
 1. TOC
 {:toc}
 
-## Where it runs
+## Where It Runs
 
 Liferay Migration Studio is a Docker container that runs on your own infrastructure: a laptop
 for one person, or a server for a team. There's no hosted service and nothing to sign up for.
 
-## Where your data goes
+## Where Your Data Goes
 
 * **Only to the systems you connect.** Studio reads from the source connections and writes to
   the Liferay DXP target. It makes no other connections, apart from the AI model if you set one up.
@@ -31,7 +31,7 @@ for one person, or a server for a team. There's no hosted service and nothing to
 ## Credentials
 
 * Keep passwords and keys in **environment variables** on the server, and refer to them by name
-  in a project. Exporting or sharing the project then never includes them.
+  in a project, such as `env:LUMT_TARGET_PASSWORD`. Exporting or sharing the project then never includes them.
 * Give the source connection read access only. The target connection needs to write only the
   content being migrated.
 
@@ -40,6 +40,8 @@ for one person, or a server for a team. There's no hosted service and nothing to
 * On a laptop, Studio listens only on your own machine.
 * On a server, an **access token** protects the web UI, the API and the MCP server. Studio warns
   if it's reachable on a network without one. Put HTTPS in front of it.
+
+![The sign-in screen of a Migration Studio server protected by an access token.](images/sign-in.png){: .screenshot }
 
 ## Safeguards
 

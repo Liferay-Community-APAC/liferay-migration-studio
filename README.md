@@ -10,6 +10,7 @@ creating duplicates.
 
 * [How it works](https://liferay-community-apac.github.io/liferay-migration-studio/how-it-works.html)
 * [Liferay Web Content to the new CMS](https://liferay-community-apac.github.io/liferay-migration-studio/liferay-web-content-to-cms.html), tested from Liferay 2024.Q1 and 2025.Q1 to 2026.Q3
+* [SharePoint discussions to Liferay Forums](https://liferay-community-apac.github.io/liferay-migration-studio/sharepoint-discussions-to-forums.html), tested against a simulated SharePoint Server 2016
 * [AI help](https://liferay-community-apac.github.io/liferay-migration-studio/ai.html)
 * [Security and data](https://liferay-community-apac.github.io/liferay-migration-studio/security-and-data.html)
 
