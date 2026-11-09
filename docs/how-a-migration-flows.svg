@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1250 560" width="1250" height="560" role="img" aria-labelledby="t d">
+  <title id="t">Liferay Migration Studio: how a migration flows</title>
+  <desc id="d">Sources (Liferay 2024.Q1 and later, REST/OpenAPI, CSV) are extracted to resumable staging, mapped with field rules and lookups in an automatically worked-out order, loaded into Liferay DXP 2026.Q1+ by upsert or Batch Engine, then validated. A web UI, CLI and optional MCP server drive every step; AI help is optional.</desc>
+  <style>
+    .bg { fill: #ffffff; }
+    .card { fill: #f6f8fb; stroke: #d5dbe5; }
+    .target { fill: #eaf1ff; stroke: #0b5fff; }
+    .ink { fill: #1c2330; }
+    .muted { fill: #5b6577; }
+    .accent { fill: #0b5fff; }
+    .accent-s { stroke: #0b5fff; }
+    .line { stroke: #8a94a6; }
+    .soft { fill: #ffffff; stroke: #d5dbe5; }
+    .opt { fill: none; stroke: #9a6700; stroke-dasharray: 5 4; }
+    .opt-t { fill: #9a6700; }
+    .ok { fill: #1a7f37; }
+    .ok-s { stroke: #1a7f37; }
+    .ok-bg { fill: #e6f4ea; stroke: #1a7f37; }
+    .h { font: 700 17px system-ui, -apple-system, "Segoe UI", sans-serif; }
+    .k { font: 700 11px system-ui, -apple-system, "Segoe UI", sans-serif; letter-spacing: .08em; }
+    .b { font: 13px system-ui, -apple-system, "Segoe UI", sans-serif; }
+    .s { font: 12px system-ui, -apple-system, "Segoe UI", sans-serif; }
+    .title { font: 700 20px system-ui, -apple-system, "Segoe UI", sans-serif; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #0d1117; }
+      .card { fill: #161b22; stroke: #30363d; }
+      .target { fill: #13223f; stroke: #5b8cff; }
+      .ink { fill: #e6edf3; }
+      .muted { fill: #9aa4b5; }
+      .accent { fill: #5b8cff; }
+      .accent-s { stroke: #5b8cff; }
+      .line { stroke: #6e7681; }
+      .soft { fill: #0d1117; stroke: #30363d; }
+      .opt { stroke: #e3b341; }
+      .opt-t { fill: #e3b341; }
+      .ok { fill: #4ac26b; }
+      .ok-s { stroke: #4ac26b; }
+      .ok-bg { fill: #12261a; stroke: #4ac26b; }
+    }
+  </style>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="accent"/>
+    </marker>
+    <marker id="arrow-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" class="ok"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1250" height="560" rx="14"/>
+  <text class="title ink" x="30" y="44">How a migration flows</text>
+  <text class="b muted" x="30" y="66">Every step is resumable and safe to re-run: records keep a stable external reference code (ERC).</text>
+
+  <!-- 1 Sources -->
+  <rect class="card" x="30" y="92" width="200" height="270" rx="12"/>
+  <text class="k muted" x="50" y="120">1 · SOURCES</text>
+  <text class="h ink" x="50" y="146">Any API</text>
+  <text class="b ink" x="50" y="178">Liferay 2024.Q1 and later</text>
+  <text class="b ink" x="50" y="202">REST · OpenAPI · OData</text>
+  <text class="b ink" x="50" y="226">Third-party web apps</text>
+  <text class="b ink" x="50" y="250">CSV folders</text>
+  <text class="s muted" x="50" y="290">Basic · OAuth 2 · API keys</text>
+  <text class="s muted" x="50" y="310">Rate limits · retries</text>
+  <text class="s muted" x="50" y="330">Entities found from OpenAPI</text>
+
+  <!-- 2 Extract -->
+  <rect class="card" x="280" y="92" width="200" height="270" rx="12"/>
+  <text class="k muted" x="300" y="120">2 · EXTRACT</text>
+  <text class="h ink" x="300" y="146">Stage locally</text>
+  <text class="b ink" x="300" y="178">Paging · parent loops</text>
+  <text class="b ink" x="300" y="202">Trees · file downloads</text>
+  <text class="b ink" x="300" y="226">Checkpoint per page</text>
+  <text class="b ink" x="300" y="250">Delta: changed since</text>
+  <!-- staging cylinder -->
+  <g transform="translate(300,272)">
+    <path class="soft" d="M0,10 v40 a80,10 0 0 0 160,0 v-40" />
+    <ellipse class="soft" cx="80" cy="10" rx="80" ry="10"/>
+    <text class="s muted" x="80" y="42" text-anchor="middle">Staging · JSONL on disk</text>
+  </g>
+
+  <!-- 3 Map -->
+  <rect class="card" x="530" y="92" width="200" height="270" rx="12"/>
+  <text class="k muted" x="550" y="120">3 · MAP</text>
+  <text class="h ink" x="550" y="146">Map in the UI</text>
+  <text class="b ink" x="550" y="178">Field rules · transforms</text>
+  <text class="b ink" x="550" y="202">Lookups across mappings</text>
+  <text class="b ink" x="550" y="226">Record plugins</text>
+  <text class="b ink" x="550" y="250">Preview real records</text>
+  <!-- run-order mini graph -->
+  <g transform="translate(550,272)">
+    <rect class="soft" x="0" y="0" width="160" height="70" rx="8"/>
+    <circle class="accent" cx="24" cy="15" r="5"/>
+    <circle class="accent" cx="24" cy="35" r="5"/>
+    <circle class="accent" cx="80" cy="25" r="5"/>
+    <circle class="accent" cx="136" cy="25" r="5"/>
+    <path class="line" d="M29,16 L75,24 M29,34 L75,26 M85,25 L131,25" stroke-width="1.5" fill="none"/>
+    <text class="s muted" x="80" y="64" text-anchor="middle">Run order worked out</text>
+  </g>
+
+  <!-- 4 Load -->
+  <rect class="card" x="780" y="92" width="200" height="270" rx="12"/>
+  <text class="k muted" x="800" y="120">4 · LOAD</text>
+  <text class="h ink" x="800" y="146">Write to Liferay</text>
+  <text class="b ink" x="800" y="178">Upsert by ERC</text>
+  <text class="b ink" x="800" y="202">Batch Engine import</text>
+  <text class="b ink" x="800" y="226">Chunks · parallel</text>
+  <text class="b ink" x="800" y="250">Parents first · cycles</text>
+  <text class="s muted" x="800" y="290">Dry run: see every request</text>
+  <text class="s muted" x="800" y="310">Unchanged records skipped</text>
+  <text class="s muted" x="800" y="330">ID map saved per chunk</text>
+
+  <!-- 5 Target -->
+  <rect class="target" x="1030" y="92" width="190" height="270" rx="12" stroke-width="1.5"/>
+  <text class="k accent" x="1050" y="120">5 · TARGET</text>
+  <text class="h ink" x="1050" y="146">Liferay DXP</text>
+  <text class="b ink" x="1050" y="178">2026.Q1+ · CMS Spaces</text>
+  <text class="b ink" x="1050" y="202">Content structures</text>
+  <text class="b ink" x="1050" y="226">Objects</text>
+  <text class="b ink" x="1050" y="250">Documents and Media</text>
+  <text class="b ink" x="1050" y="274">Categories · picklists</text>
+
+  <!-- flow arrows -->
+  <g class="accent-s" stroke-width="2.5" fill="none" marker-end="url(#arrow)">
+    <path d="M232,200 L276,200"/>
+    <path d="M482,200 L526,200"/>
+    <path d="M732,200 L776,200"/>
+    <path d="M982,200 L1026,200"/>
+  </g>
+
+  <!-- validate (feedback from target) -->
+  <rect class="ok-bg" x="780" y="400" width="440" height="56" rx="12" stroke-width="1.5"/>
+  <text class="k ok" x="800" y="423">6 · VALIDATE</text>
+  <text class="b ink" x="800" y="444">Counts · missing records · fields read back and compared</text>
+  <path class="ok-s" d="M1125,364 L1125,396" stroke-width="2.5" fill="none" marker-end="url(#arrow-ok)"/>
+
+  <!-- control bar -->
+  <rect class="card" x="30" y="400" width="700" height="56" rx="12"/>
+  <text class="k muted" x="50" y="423">DRIVE IT FROM</text>
+  <text class="b ink" x="50" y="444">Web UI  ·  CLI  ·  scripts / CI</text>
+  <rect class="opt" x="300" y="413" width="196" height="30" rx="15" stroke-width="1.5"/>
+  <text class="s opt-t" x="398" y="433" text-anchor="middle">MCP server (optional)</text>
+  <rect class="opt" x="510" y="413" width="204" height="30" rx="15" stroke-width="1.5"/>
+  <text class="s opt-t" x="612" y="433" text-anchor="middle">AI help (optional)</text>
+  <!-- ticks from control bar to each step -->
+  <g class="line" stroke-width="1.5" stroke-dasharray="3 4">
+    <path d="M130,398 L130,366"/>
+    <path d="M380,398 L380,366"/>
+    <path d="M630,398 L630,366"/>
+  </g>
+  <path class="line" d="M730,428 L776,428" stroke-width="1.5" stroke-dasharray="3 4"/>
+
+  <text class="s muted" x="30" y="500">Optional pieces are dashed. Without an AI model or MCP client everything still works; the model never sees bulk data.</text>
+  <text class="s muted" x="30" y="522">Tested on real Liferay: 2024.Q1 and 2025.Q1 → 2026.Q3 CMS · 0 failures · re-runs change nothing.</text>
+</svg>
