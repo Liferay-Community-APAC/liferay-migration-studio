@@ -132,12 +132,31 @@ At cutover, a **delta** extract followed by a load writes only what changed sinc
 - a **spot check**: a sample of migrated records is read back from Liferay and compared field by field with what was
   sent, including nested fields such as the author, with dates compared by value;
 - **records that point to something not migrated**: for example, forum posts whose author wasn't imported, with the
-  missing record named.
+  missing record named;
+- **fields Liferay didn't keep**: a field that comes back different in nearly every record checked isn't a bad
+  record. Liferay sets it itself, as with a forum post's creation date, which is always the time of the import.
 
 ![Validation of a SharePoint migration: everything loaded and matched; 15 discussions and 36 replies point to a user who wasn't migrated.](images/validation-dependencies.png){: .screenshot }
 
 Every problem lists the records involved, and a CSV of the report can be downloaded. With an AI model connected,
 **Investigate with AI** explains the causes. See [AI Help](ai.html).
+
+## Keep Fields Liferay Doesn't Keep
+
+When validation lists **fields Liferay didn't keep**, **Keep these values** repairs them after the load:
+
+1. **An individual update.** Migration Studio updates the field on one record on its own, after the load, and reads
+   it back. If Liferay keeps it this way, every record is updated the same way.
+1. **A custom field.** If Liferay still sets its own value, Migration Studio adds a custom field to the Liferay object
+   behind the target, such as `originalDateCreated`, typed from the value (a date and time, a number, text), and
+   writes every record's value into it.
+
+The project remembers it: later loads, including delta loads at cutover, write the custom field directly, and
+validation checks the custom field instead. Adding a field changes the Liferay object, so the repair runs only when you
+start it, and a **dry run** shows what it would do first.
+
+Tested on Liferay Forums: Liferay ignores a post's creation date in the batch import and in individual updates, so
+the repair added `originalDateCreated` to the forum's topics and messages and kept all 341 SharePoint dates there.
 
 ## Ways to Drive It
 

@@ -49,6 +49,7 @@ SharePoint author, except the 15 discussions and 36 replies by a user without an
 | Like | A vote by the user who liked it |
 | Site user with an email address | Liferay user, kept as the author of their posts and votes |
 | Last updated | The topic's last post date |
+| Created | `originalDateCreated`, a custom field added to topics and messages (see below) |
 
 Posts keep their formatting. Each post starts with *Originally posted on* and its SharePoint date, because Liferay
 sets a migrated post's own date to the time of the migration.
@@ -76,10 +77,16 @@ Liferay Forums' microservice checks every new message, so it must be running dur
 - Turn off email notifications on the forum's Liferay until the migration is done, so subscribers aren't emailed
   about every migrated post.
 
+## Original Dates
+
+Liferay sets every topic's and message's creation date to the time of the import: it ignores SharePoint's date in
+the batch import and in individual updates. Validation reports this as a field Liferay didn't keep, and **Keep
+these values** adds a custom field, `originalDateCreated`, to the forum's topics and messages and keeps every
+SharePoint date there. Liferay Forums' pages still show Liferay's own date, so each post also starts with
+*Originally posted on* and its SharePoint date.
+
 ## Not Migrated
 
-- **Original dates as Liferay's own.** Lists show the migration date; each post's first line keeps the SharePoint
-  date.
 - **Users without an email address,** and their likes.
 - **Star ratings, Featured discussions, alerts and subscriptions.**
 
