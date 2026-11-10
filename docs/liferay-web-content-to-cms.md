@@ -1,7 +1,7 @@
 ---
 title: Liferay Web Content to the New CMS
 nav_order: 3
-description: "Migrating Liferay 2024.Q1+ Web Content into the new CMS of Liferay DXP 2026.Q1+: what's migrated, field types and the checklist."
+description: "Migrating Liferay 7.3+ Web Content into the new CMS of Liferay DXP 2026.Q1+: what's migrated, field types and the checklist."
 ---
 
 # Liferay Web Content to the New CMS
@@ -13,7 +13,7 @@ description: "Migrating Liferay 2024.Q1+ Web Content into the new CMS of Liferay
 1. TOC
 {:toc}
 
-This ready-made migration moves one site's classic Web Content from **Liferay 2024.Q1 or later**
+This ready-made migration moves one site's classic Web Content from **Liferay DXP 7.3 or later**
 into a **Space** of the new CMS in **Liferay DXP 2026.Q1 or later**. Everything in it is ordinary
 project configuration, so you can change any part of it in the UI.
 
@@ -32,7 +32,13 @@ On real Liferay, from `liferay/dxp:2024.q1.32` to `liferay/dxp:2026.q3.9`, with 
 
 There were no errors on the first load, and running it again changed nothing. The same migration
 from `liferay/dxp:2025.q1.29-lts`, with 339 articles, gave the same result, and a delta load wrote
-only the articles added or changed since the first load.
+only the articles added or changed since the first load. From `liferay/dxp:7.3.10-u36` (DXP 7.3), 202 of 202
+articles, 14 documents and 5 structures loaded with no errors, and the spot check of 100 articles found no
+differences.
+
+{: .note }
+DXP 7.3 returns image, document and related-article fields in an older form than 7.4 and later. Migration Studio
+reads both, and warns if a field holds a value it can't read, so a field is never left empty without a warning.
 
 ![Validation of the 2024.Q1 migration: every mapping loaded, and the spot check found every record with no differences.](images/cms-validation.png){: .screenshot }
 

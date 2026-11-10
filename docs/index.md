@@ -22,7 +22,7 @@ creating duplicates.
 ## Who It's For
 
 - **Liferay customers moving to the new CMS** in Liferay DXP 2026.Q1 and later, from classic Web Content in
-  2024.Q1 and later.
+  Liferay DXP 7.3 and later.
 - **Teams replacing another system with Liferay**, such as SharePoint discussion boards with Liferay Forums.
 - **Partners and consultants** who run migrations for customers and want the same repeatable, checkable process each
   time.
@@ -31,7 +31,7 @@ creating duplicates.
 
 | Migration | Tested | Guide |
 | --- | --- | --- |
-| Liferay Web Content (2024.Q1 and later) → the new CMS in 2026.Q3 | On real Liferay, from 2024.Q1 and 2025.Q1 | [Liferay Web Content to the New CMS](liferay-web-content-to-cms.html) |
+| Liferay Web Content (DXP 7.3 and later) → the new CMS in 2026.Q3 | On real Liferay, from 7.3, 2024.Q1 and 2025.Q1 | [Liferay Web Content to the New CMS](liferay-web-content-to-cms.html) |
 | SharePoint Server discussion boards → Liferay Forums | Against a simulated SharePoint Server 2016, into real Liferay Forums | [SharePoint Discussions to Liferay Forums](sharepoint-discussions-to-forums.html) |
 | Other systems with a REST API, or CSV files | With test servers only | [How It Works](how-it-works.html) |
 
