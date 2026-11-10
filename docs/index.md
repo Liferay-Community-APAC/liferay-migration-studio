@@ -32,6 +32,7 @@ creating duplicates.
 | Migration | Tested | Guide |
 | --- | --- | --- |
 | Liferay Web Content (DXP 7.3 and later) → the new CMS in 2026.Q3 | On real Liferay, from 7.3, 2024.Q1 and 2025.Q1 | [Liferay Web Content to the New CMS](liferay-web-content-to-cms.html) |
+| A whole Liferay site (DXP 7.3 and later): people, authors, blogs, knowledge base, wiki, message boards, comments, permissions → the new CMS in 2026.Q3 | On real Liferay, from 7.3 | [A Whole Liferay Site to the New CMS](liferay-site-to-cms.html) |
 | SharePoint Server discussion boards → Liferay Forums | Against a simulated SharePoint Server 2016, into real Liferay Forums | [SharePoint Discussions to Liferay Forums](sharepoint-discussions-to-forums.html) |
 | Other systems with a REST API, or CSV files | With test servers only | [How It Works](how-it-works.html) |
 

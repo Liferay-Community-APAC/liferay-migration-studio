@@ -26,6 +26,7 @@ Click **New project** and pick a starting point:
 | Starting point | What you get |
 | --- | --- |
 | **Liferay Web Content (7.3+) → 2026.Q3 CMS** | Connections, entities and mappings for classic Web Content into a CMS Space. See [Liferay Web Content to the New CMS](liferay-web-content-to-cms.html). |
+| **Whole Liferay site (7.3+) → 2026.Q3 CMS** | Everything above, plus users, roles and organizations, original authors, folders, comments, permissions, templates, blogs, knowledge base, wiki and message boards. See [A Whole Liferay Site to the New CMS](liferay-site-to-cms.html). |
 | **SharePoint discussion boards → Liferay Forums** | Discussions, replies, authors, attachments and likes into Liferay Forums. See [SharePoint Discussions to Liferay Forums](sharepoint-discussions-to-forums.html). |
 | **Blank project** | Nothing yet: add your own connections, entities and mappings. |
 

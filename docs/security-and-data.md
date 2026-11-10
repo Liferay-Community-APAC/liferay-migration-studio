@@ -1,6 +1,6 @@
 ---
 title: Security and Data
-nav_order: 6
+nav_order: 7
 description: "Where Liferay Migration Studio runs, where your data goes, credentials, access and safeguards."
 ---
 

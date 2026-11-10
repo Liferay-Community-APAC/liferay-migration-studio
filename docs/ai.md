@@ -1,6 +1,6 @@
 ---
 title: AI Help
-nav_order: 5
+nav_order: 6
 description: "Optional AI in Liferay Migration Studio: mapping suggestions, explaining validation problems, and Ask."
 ---
 

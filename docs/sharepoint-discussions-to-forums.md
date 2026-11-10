@@ -1,6 +1,6 @@
 ---
 title: SharePoint Discussions to Liferay Forums
-nav_order: 4
+nav_order: 5
 description: "Migrating SharePoint Server discussion boards to Liferay Forums: authors, nested replies, best answers, attachments and likes."
 ---
 
