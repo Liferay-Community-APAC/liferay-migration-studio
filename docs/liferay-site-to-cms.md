@@ -40,12 +40,17 @@ in three levels of organizations, custom roles, and content written by those use
 
 There were no errors, every item kept its author, and running the load again changed nothing.
 
+The same test from `liferay/dxp:7.4.13-u92` (DXP 7.4 Update 92), into a new Space on the same target, loaded 210 of
+210 articles, 30 comments and replies, 5 blogs, the knowledge base, wiki, message boards and template with no errors and
+no differences. The target already had the organizations, roles and users from the 7.3 test, so they were reused by
+name and email instead of created again.
+
 ## What's Migrated
 
 | From the site | To the new CMS | |
 |---|---|---|
-| Organizations | Organizations | The tree is kept. |
-| Custom roles | Roles | Regular and site roles, by name. Liferay's own roles already exist. |
+| Organizations | Organizations | The tree is kept. An organization the target already has (same name) is reused. |
+| Custom roles | Roles | Regular and site roles, by name. Liferay's own roles already exist, and so may yours: a role the target already has (same name) is reused. |
 | The site's users | Users | With their organizations and regular roles. An account the target already has (same email) is reused. |
 | Web content folders | CMS folders in the Space | Articles go in their folder. |
 | Articles | CMS entries | As [Web Content to the New CMS](liferay-web-content-to-cms.html), plus their **original author**, rating (average and count) and related content. |
